@@ -8,7 +8,7 @@ The scripts in this repository generate all the figures and analyses used in thi
 
 How to execute these scripts:
 
-You will need the raw data files 'Bird Pecks.csv' and 'Entrances.csv' (provided as Supplemental Materials separate from this repository). Save the .csv files in a directory titled 'data' in the same location as the scripts. Start with the data cleanup file, which will generate three tidy .csv files to use in subsequent scripts. The other scripts should then successfully run, drawing from the tidied .csv files generated from the previous step. This may be repeated for each of the figure scripts and question scripts. However, the scripted titled 'Entrance_Centering.R' requires a different raw data input file. This file is the one labled 'Entrances.csv.'
+You will need the raw data files 'Bird Pecks.csv' and 'Entrances.csv' (provided as Supplemental Materials separate from this repository). Save the .csv files in a directory titled 'Data' in the same location as the scripts. Start with the data cleanup file, which will generate three tidy .csv files to use in subsequent scripts. The other scripts should then successfully run, drawing from the tidied .csv files generated from the previous step. This may be repeated for each of the figure scripts and question scripts. However, the scripted titled 'Entrance_Centering.R' requires a different raw data input file. This file is the one labled 'Entrances.csv.'
 
 How to retrieve the output:
 

@@ -9,7 +9,7 @@ library(tidyverse)
 
 # Bring in data file
 
-bp <- read.csv(file="Data/Bird Pecks.csv")
+bp <- read.csv(file="Data/Bird_Pecks.csv")
 head(bp)
 
 # Clean up data

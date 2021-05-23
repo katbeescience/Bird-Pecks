@@ -7,7 +7,7 @@
 
 library(ggplot2)
 
-# Bring in the file.
+# Bring in the file
 
 peckcountsonly <- read.csv("Data/peckcountsonly.csv")
 
@@ -17,8 +17,8 @@ peckcountsonly$peck.binary <- ifelse((peckcountsonly$peck.count==0),
                                      "Pecked Stalks",
                                      "Unpecked Stalks")
 
-# Make a nice boxplot comparing the median entrance heights of stalks with and
-# without pecks.
+# Make a boxplot comparing the median entrance heights of stalks with and
+# without pecks
 
 pecknopeckboxplot <- ggplot(peckcountsonly, aes(x=peck.binary, y=entleaf,
                                                 group=peck.binary,

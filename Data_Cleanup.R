@@ -23,8 +23,7 @@ tidybp <- bp %>%
 head(tidybp)
 
 # If any of these are missing nest entrance height or leaf height, we can't
-# really use them. So we'll go ahead and remove those rows with NAs in either
-# of those two columns.
+# use them. Remove those rows with NAs in either of those two columns.
 
 tidybp <- tidybp %>%
   drop_na(leafmm, entmm)
@@ -35,7 +34,7 @@ head(tidybp)
 tidybp$leafcm <- tidybp$leafmm / 10
 tidybp$entcm <- tidybp$entmm / 10
 
-# We're going to want a column looking at entrance height relative to leaf.
+# Build a column for entrance height relative to leaf.
 
 tidybp$entleaf <- tidybp$entcm - tidybp$leafcm
 
@@ -52,15 +51,14 @@ if (tidybp$entleaf[i] > 0) {
 }
 }
 
-# There are still some NAs for pecks. So let's save this tibbl as an object
-# from which entleaf stats can be gotten. Let's get rid of the peck stuff so we
-# won't accidentally try to use it for stats later.
+# There are still some NAs for pecks. Save this tibbl as an object
+# from which entleaf stats can be gotten. Get rid of peck data for now.
 
 entleafonly <- tidybp %>%
   select(nestcode, site, leafcm, entcm)
 head(entleafonly)
 
-# Now let's take tidybp and make a similar object where we can use peck counts,
+# Take tidybp and make a similar object where we can use peck counts,
 # including entrance height and leaf height.
 
 peckcountsonly <- tidybp %>%
@@ -68,9 +66,9 @@ peckcountsonly <- tidybp %>%
   select(nestcode, site, leafcm, entcm, entleaf, peck.count, AB)
 head(peckcountsonly)
 
-# We'll need to put the peck measurements into long format, but that will
-# generate a bunch of NAs. Start with no NAs in entmm, leafmm, or peck.count.
-# We don't need to stare at the notes either, so we'll drop that column for now.
+# Put the peck measurements into long format, which will generate NAs.
+# Start with no NAs in entmm, leafmm, or peck.count.
+# Drop notes column for now.
 
 peckdist <- tidybp %>%
   drop_na(peck.count) %>%
@@ -98,37 +96,36 @@ peckdist <- tidybp %>%
                values_to="peckentmm",
                names_to="peck.ent")
 
-# Now we want to be able to compare peck locations relative to leaf height.
+# We want to be able to compare peck locations relative to leaf height.
 # First, we have peck locations labeled "Up" and others labeled "Dn".
-# To use math with them, we'll need all the "Dn" ones to be negative numbers.
+# We'll need all the "Dn" ones to be negative numbers.
 
 downindices <- grep("BirdPredDn.mm.", peckdist$peck.ent)
 peckdist$peckentmm[downindices] <- peckdist$peckentmm[downindices]*(-1)
 
-# Transform mm peck distances to cm.
+# Transform new mm peck distances to cm.
 
 peckdist$peckentcm <- peckdist$peckentmm / 10
 
-# For peck distance analyses, I don't think we need to keep rows where there
-# were no pecks. We also don't need the up/down labels anymore. Let's get rid.
-# Finally, there will be leftover NAs in the peck locations left over from when
-# we pivoted longer. So we'll get rid of those too.
+# For peck distance analyses, remove rows with no pecks.
+# Remove up/down labels.
+# Get rid of leftover NAs in the peck locations left over from pivot_longer.
 
 peckdist <- peckdist %>%
   select(-c(peck.ent, leafmm, entmm, peckentmm)) %>%
   filter(peck.count != 0) %>%
   drop_na(peckentcm)
 
-# This object does need another column to show where the peck is relative to the
-# leaf height. This is calculated peck height minus leaf height.
+# This object needs another column to show with peck relative to leaf height.
+# This is calculated peck height minus leaf height.
 
 peckdist$abspeckht <- peckdist$peckentcm + peckdist$entcm
 
 peckdist$peckleaf <-  peckdist$abspeckht - peckdist$leafcm
 
-# Let's make .csvs out of all these different objects.
-# We can have them pull into other scripts, and then we only need this script
-# if we want to pull in a new query from the database flexibly.
+# Make .csvs out of these objects.
+# These can pull into other scripts, requiring only this script
+# to get started flexibly.
 
 write.csv(x=entleafonly, file="Data/entleafonly.csv")
 write.csv(x=peckcountsonly, file="Data/peckcountsonly.csv")

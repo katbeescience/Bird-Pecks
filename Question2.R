@@ -8,23 +8,22 @@
 peckdist <- read.csv(file="Data/peckdist.csv")
 
 #===============================================================================
-# (2) Where do woodpeckers usually peck?
+# (2) Do woodpeckers peck either above or below leaf height most frequently?
 #===============================================================================
 
-# First, how many pecks are within 10 cm of the leaf height?
+# How many pecks are within 10 cm of the leaf height?
 
 pecks10cmleaf <- length(which(peckdist$peckleaf < 10 & peckdist$peckleaf > -10))
 allpecks <- length(peckdist$peckleaf)
 
 ten.cm.percent.pecks <- (pecks10cmleaf/allpecks)*100
 
-# Another Chi-squared. This one is basically the same thing, but asks if pecks
-# are more often above or below the leaf height.
+# Chi-squared goodness-of-fit.
 # In our data, peck heights in the column peck.leaf are negative if they are
 # below the leaf height.
 
-# This time if the peck height is negative, it gets assigned "C", and if
-# positive it's "D". "C" means below. "D" means above.
+# If the peck height is negative (above leaf height), it is assigned "C".
+# If positive (below leaf height), it is assigned "D".
 
 C.count <- nrow(peckdist[which(peckdist$peckleaf < 0),])
 D.count <- nrow(peckdist[which(peckdist$peckleaf > 0),])
@@ -32,33 +31,10 @@ CD.count <- as.matrix(c(C.count,D.count))
 
 chisq.test(CD.count, y=NULL, p=(rep(1/nrow(CD.count), nrow(CD.count))))
 
+# Calculate percentage of Cs and Ds.
+
 Percent.C <- (C.count/(C.count + D.count))*100
 Percent.D <- (D.count/(C.count + D.count))*100
-
-# Let's make a function that will automatically figure out the expected
-# categories for a Chi-square.
-
-ChiSq.Expected <- function(data, numcat) {
-  sum <- sum(data)
-  expected.vector <- sum/numcat
-  return(expected.vector)
-}
-
-# Do most pecks occur above or below leaf height?
-# To do a Chi-square comparing the overall heights of pecks to an equal above and below distribution,
-# need to use the count of all pecks, and the counts of pecks above and below respectively.
-# Need heights of each individual peck, but need to be able to index to whether they are above or
-# below leaf height.
-# Is this identical to what I did above? Yes it is. Also matches manual calculation. Good sanity
-# check I guess.
-
-countCD <- C.count + D.count
-
-exp <- ChiSq.Expected(countCD, 2)
-
-# Do that test:
-
-peck.ht.chisq <- chisq.test(CD.count, y=NULL, p=(rep(1/2, 2)))
 
 # Output file:
 

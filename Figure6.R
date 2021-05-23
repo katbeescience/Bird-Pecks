@@ -3,11 +3,11 @@
 # mkbusby@email.arizona.edu
 # May 20, 2021
 
-# Load libraries:
+# Load libraries
 
 library(ggplot2)
 
-# Bring in file:
+# Bring in file
 
 peckdist <- read.csv("Data/peckdist.csv")
 
@@ -26,7 +26,7 @@ overall.peck.lf.dist
 #===========================================================================================================
 
 
-# Boxplot of peck heights relative to leaf heigth, similar to how it was depicted in the previous figure for Q1.
+# Boxplot of peck heights relative to leaf heigth, similar to previous figure for Q1
 
 overall.peck.lf.boxplot <- ggplot(peckdist, aes(y=peckleaf, size=5)) +
   geom_boxplot(width=.2, outlier.size=10, fill="white") +
@@ -38,7 +38,7 @@ overall.peck.lf.boxplot <- ggplot(peckdist, aes(y=peckleaf, size=5)) +
   theme_classic(base_size=50)
 overall.peck.lf.boxplot
 
-# Save the plots.
+# Save the plots
 
 ggsave(plot=overall.peck.lf.boxplot,
        filename=paste0("Output/",Sys.Date(),"_peckleafboxplot.png"),

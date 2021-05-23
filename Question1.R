@@ -15,27 +15,20 @@ peckcountsonly <- read.csv(file="Data/entleafonly.csv")
 
 # Is the entrance height relative to the leaf height more likely than not to be
 # negative?
-# For this, we can use the variable ent.leaf and do a Chi-squared test for
-# goodness-of-fit.
+# Chi-squared test for goodness-of-fit.
 # All entrances above leaves will be labeled "A"s, and all those below will be
 # "B"s.
 # Chi-square null hypothesis (expected values) is that there will be an equal
 # number of As and Bs.
 
-# Okay, first, this could be done in tidyverse.
 A.count <- length(entleafonly$AB[which(entleafonly$AB==0)])
-A.count
 B.count <- length(entleafonly$AB[which(entleafonly$AB==1)])
-B.count
-
 AB.count <- length(peckcountsonly$AB)
-AB.count
 
 value.vector <- c(A.count,B.count)
 
 ent.ht.chisq <- chisq.test(value.vector, y=NULL, p=(rep(1/length(value.vector),
                                                         length(value.vector))))
-ent.ht.chisq
 
 # Save an output file of results.
 

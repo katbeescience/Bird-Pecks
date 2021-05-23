@@ -10,7 +10,6 @@ library(tidyverse)
 # Bring in data file
 
 bp <- read.csv(file="Data/Entrances.csv")
-head(bp)
 
 # Clean up data
 
@@ -20,21 +19,18 @@ tidybp <- bp %>%
          "leafmm"=LeafHeight.mm.,
          "entmm"=EntranceHeight.mm.,
          "peck.count"=TotalNumberOfBirdPecks)
-head(tidybp)
 
-# If any of these are missing nest entrance height or leaf height, we can't
-# use them. Remove those rows with NAs in either of those two columns.
+# Remove those rows with NAs in either leafmm or entmm columns.
 
 tidybp <- tidybp %>%
   drop_na(leafmm, entmm)
-head(tidybp)
 
 # Transform entrance and leaf mm measurements to cm.
 
 tidybp$leafcm <- tidybp$leafmm / 10
 tidybp$entcm <- tidybp$entmm / 10
 
-# Make a column for entrance height relative to leaf.
+# Build a column for entrance height relative to leaf.
 
 tidybp$entleaf <- tidybp$entcm - tidybp$leafcm
 
@@ -55,7 +51,6 @@ if (tidybp$entleaf[i] > 0) {
 
 entleafonly <- tidybp %>%
   select(nestcode, site, leafcm, entcm, AB)
-head(entleafonly)
 
 # Create a similar object where we can use peck counts,
 # including entrance height and leaf height.
@@ -63,10 +58,9 @@ head(entleafonly)
 peckcountsonly <- tidybp %>%
   drop_na(peck.count) %>%
   select(nestcode, site, leafcm, entcm, entleaf, peck.count, AB)
-head(peckcountsonly)
 
-# Put the peck measurements into long format, but that will
-# generate NAs. Start with no NAs in entmm, leafmm, or peck.count.
+# Put the peck measurements into long format, which will generate NAs.
+# Start with no NAs in entmm, leafmm, or peck.count.
 # Drop notes column.
 
 peckdist <- tidybp %>%
@@ -97,19 +91,18 @@ peckdist <- tidybp %>%
 
 # To compare peck locations relative to leaf height:
 # First, we have peck locations labeled "Up" and others labeled "Dn".
-# To use math with them, we'll need all the "Dn" ones to be negative numbers.
+# We'll need all the "Dn" ones to be negative numbers.
 
 downindices <- grep("BirdPredDn.mm.", peckdist$peck.ent)
 peckdist$peckentmm[downindices] <- peckdist$peckentmm[downindices]*(-1)
 
-# Transform mm peck distances to cm.
+# Transform new mm peck distances to cm.
 
 peckdist$peckentcm <- peckdist$peckentmm / 10
 
-# For peck distance analyses, don't keep rows with no pecks.
-# We also don't need the up/down labels anymore.
-# There will be NAs in the peck locations left over from when
-# we pivoted longer. Get rid of those too.
+# For peck distance analyses, remove rows with no pecks.
+# Remove up/down labels.
+# Remove NAs in peck locations left over from pivot_longer.
 
 peckdist <- peckdist %>%
   select(-c(peck.ent, leafmm, entmm, peckentmm)) %>%
@@ -123,8 +116,8 @@ peckdist$abspeckht <- peckdist$peckentcm + peckdist$entcm
 
 peckdist$peckleaf <-  peckdist$abspeckht - peckdist$leafcm
 
-# Let's make .csvs out of all these different objects.
-# They will be pulled into other scripts.
+# Make .csvs out of all these different objects.
+# These will be pulled into other scripts.
 
 write.csv(x=entleafonly, file="Data/entleafonly.csv")
 write.csv(x=peckcountsonly, file="Data/peckcountsonly.csv")

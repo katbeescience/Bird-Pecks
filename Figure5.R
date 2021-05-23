@@ -3,15 +3,15 @@
 # mkbusby@email.arizona.edu
 # May 20, 2021
 
-# Load libraries:
+# Load libraries
 
 library(ggplot2)
 
-# Bring in file:
+# Bring in file
 
 peckcountsonly <- read.csv(file="Data/peckcountsonly.csv")
 
-# Here's a nice figure for this result:
+# A figure for this result
 
 ent.lf.boxplot <- ggplot(peckcountsonly, aes(y=entleaf, size=5)) +
   geom_boxplot(width=.2, outlier.size=10, fill="white") +

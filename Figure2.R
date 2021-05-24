@@ -1,4 +1,4 @@
-# Figure 5: Entrance height boxplot.
+# Figure 2: Entrance height boxplot.
 # Kathryn Busby
 # mkbusby@email.arizona.edu
 # May 20, 2021

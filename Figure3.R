@@ -1,4 +1,4 @@
-# Figure 6: Peck distribution boxplot.
+# Figure 3: Peck distribution boxplot.
 # Kathryn Busby
 # mkbusby@email.arizona.edu
 # May 20, 2021

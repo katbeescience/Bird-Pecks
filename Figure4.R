@@ -1,4 +1,4 @@
-# Figure 7: Pecked versus unpecked entrance heights.
+# Figure 4: Pecked versus unpecked entrance heights.
 # Kathryn Busby
 # mkbusby@email.arizona.edu
 # May 20, 2021

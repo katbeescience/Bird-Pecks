@@ -4,7 +4,7 @@ ABSTRACT--We examined a potential carpenter bee defense against nest predation b
 
 What is here?
 
-The scripts in this repository generate all the figures and analyses used in this article. Note: the illustrations combined with data in the published figures 1-4 are not included here, but the data portions of those figures are included.
+The scripts in this repository generate all the figures and analyses used in this article. Note: the illustrations combined with data in the published figures 1-3 are not included here, but the data portions of those figures are included.
 
 How to execute these scripts:
 
